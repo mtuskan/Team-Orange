@@ -1,65 +1,111 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  * MyApp Class
- * @Version Michael Tuskan
+ * @Author Michael Tuskan and Ian Liston
+ * @Version 2.0
  */
+
 public class MyApp extends JFrame {
-    private final AboutScreen aboutScreen;
-    private final ProfileScreen profileScreen;
-    private final JPanel centerPanel;
+    private GUI gui;
+    private About about;
+    private User user;
+    private boolean newUser;
 
     // Constructor
-    public MyApp() throws IOException {
-        aboutScreen = new AboutScreen();
-        profileScreen = new ProfileScreen();
-        centerPanel = new JPanel();
-
+    public MyApp() {
+        gui = new GUI();
+        about = new About();
     }
 
-    public void runApplication() throws IOException {
+    /**
+     * Author Michael Tuskan and Ian Liston
+     */
+    public void runApplication() {
+
         // Main Homepage JFrame settings
-        getContentPane().setBackground(Color.ORANGE);
+        setContentPane(gui.getMainPanel());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        setLocation(600, 600);
+        setLocation(500, 200);
         setSize(500, 500);
         setTitle("Iteration 1");
 
-        // Call Panel Methods onto HomePage (main JFrame)
-        centerPanelMethod();
-
         // About Button Action Listener
-        aboutScreen.getAboutButton().addActionListener(new aboutButtonListener());
-        profileScreen.getProfileButton().addActionListener(new profileButtonListener());
+        gui.getStartAboutButton().addActionListener(new aboutButtonListener());
+        gui.getStartProfileButton().addActionListener(new profileButtonListener());
+        gui.getAboutProfileButton().addActionListener(new aboutProfileButtonListener());
+        gui.getPasswordPasswordField().addActionListener(new profilePasswordEnter());
+        gui.getNewUserButton().addActionListener(new newOrUserNewUserListener());
+        gui.getExistingUserButton().addActionListener(new newOrUserExistingButtonListener());
     }
 
-    public void centerPanelMethod() throws IOException {
-        centerPanel.setLayout(new BorderLayout());
-        centerPanel.setBackground(new Color(255, 176, 129));
-        centerPanel.add(aboutScreen.aboutScreenButtonAndJPanel(), BorderLayout.CENTER);
-        centerPanel.add(profileScreen.profileScreenButtonAndJPanel(), BorderLayout.NORTH);
-        add(centerPanel, BorderLayout.CENTER);
-    }
-
-
-    class aboutButtonListener implements ActionListener {
+    /**
+     * Author Ian Liston
+     */
+    class profilePasswordEnter implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            aboutScreen.openAboutScreen();
-
+            user = new User(gui.getProfileNameTextField().getText(),gui.getPasswordPasswordField(),newUser);
         }
     }
 
+    /**
+     * Author Ian Liston
+     */
+    class newOrUserExistingButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gui.getNewOrUserPanel().setVisible(false);
+            gui.getProfilePanel().setVisible(true);
+        }
+    }
+
+    /**
+     * Author Ian Liston
+     */
+    class newOrUserNewUserListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gui.getNewOrUserPanel().setVisible(false);
+            newUser = true;
+            gui.getProfilePanel().setVisible(true);
+        }
+    }
+
+    /**
+     * Author Michael Tuskan and Ian Liston
+     */
     class profileButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            profileScreen.openProfileScreen();
+            gui.getStartPanel().setVisible(false);
+            gui.getNewOrUserPanel().setVisible(true);
+        }
+    }
 
+        /**
+         * Author Michael Tuskan and Ian Liston
+         */
+    class aboutButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gui.getStartPanel().setVisible(false);
+            gui.getAboutTextPane().setText(about.displayString());
+            gui.getAboutPanel().setVisible(true);
+        }
+    }
+
+    /**
+     * @Author Ian Liston
+     */
+    class aboutProfileButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gui.getAboutPanel().setVisible(false);
+            gui.getProfilePanel().setVisible(true);
         }
     }
 }
