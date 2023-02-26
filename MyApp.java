@@ -1,8 +1,6 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  * MyApp Class
@@ -11,17 +9,21 @@ import java.io.IOException;
  */
 
 public class MyApp extends JFrame {
-    GUI gui;
-    About about;
+    private GUI gui;
+    private About about;
+    private User user;
+    private boolean newUser;
 
     // Constructor
-    public MyApp() throws IOException {
+    public MyApp() {
         gui = new GUI();
         about = new About();
     }
 
-    // Author: Michael Tuskan and Ian Liston
-    public void runApplication() throws IOException {
+    /**
+     * Author Michael Tuskan and Ian Liston
+     */
+    public void runApplication() {
 
         // Main Homepage JFrame settings
         setContentPane(gui.getMainPanel());
@@ -35,18 +37,58 @@ public class MyApp extends JFrame {
         gui.getStartAboutButton().addActionListener(new aboutButtonListener());
         gui.getStartProfileButton().addActionListener(new profileButtonListener());
         gui.getAboutProfileButton().addActionListener(new aboutProfileButtonListener());
+        gui.getPasswordPasswordField().addActionListener(new profilePasswordEnter());
+        gui.getNewUserButton().addActionListener(new newOrUserNewUserListener());
+        gui.getExistingUserButton().addActionListener(new newOrUserExistingButtonListener());
     }
 
-    // Author: Michael Tuskan and Ian Liston
-    class profileButtonListener implements ActionListener {
+    /**
+     * Author Ian Liston
+     */
+    class profilePasswordEnter implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            gui.getStartPanel().setVisible(false);
+            user = new User(gui.getProfileNameTextField().getText(),gui.getPasswordPasswordField(),newUser);
+        }
+    }
+
+    /**
+     * Author Ian Liston
+     */
+    class newOrUserExistingButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gui.getNewOrUserPanel().setVisible(false);
             gui.getProfilePanel().setVisible(true);
         }
     }
 
-    // Author: Michael Tuskan and Ian Liston
+    /**
+     * Author Ian Liston
+     */
+    class newOrUserNewUserListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gui.getNewOrUserPanel().setVisible(false);
+            newUser = true;
+            gui.getProfilePanel().setVisible(true);
+        }
+    }
+
+    /**
+     * Author Michael Tuskan and Ian Liston
+     */
+    class profileButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gui.getStartPanel().setVisible(false);
+            gui.getNewOrUserPanel().setVisible(true);
+        }
+    }
+
+        /**
+         * Author Michael Tuskan and Ian Liston
+         */
     class aboutButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -56,7 +98,9 @@ public class MyApp extends JFrame {
         }
     }
 
-    // Author: Ian Liston
+    /**
+     * @Author Ian Liston
+     */
     class aboutProfileButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
