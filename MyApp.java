@@ -40,6 +40,21 @@ public class MyApp extends JFrame {
         gui.getPasswordPasswordField().addActionListener(new profilePasswordEnter());
         gui.getNewUserButton().addActionListener(new newOrUserNewUserListener());
         gui.getExistingUserButton().addActionListener(new newOrUserExistingButtonListener());
+        gui.getProfileCheckBox().addActionListener(new profileCheckBoxListener());
+    }
+
+    /**
+     * Author Ian Liston
+     */
+    class profileCheckBoxListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(gui.getProfileCheckBox().isSelected())
+                gui.getPasswordPasswordField().setEchoChar((char)0);
+            else
+                gui.getPasswordPasswordField().setEchoChar('*');
+
+        }
     }
 
     /**
@@ -105,7 +120,7 @@ public class MyApp extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             gui.getAboutPanel().setVisible(false);
-            gui.getProfilePanel().setVisible(true);
+            gui.getNewOrUserPanel().setVisible(true);
         }
     }
 }

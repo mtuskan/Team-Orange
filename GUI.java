@@ -25,7 +25,7 @@ public class GUI {
     private JPanel newOrUserPanel;
     private JButton newUserButton;
     private JButton existingUserButton;
-
+    private JCheckBox profileCheckBox;
 
     // Main panel GUI method.
     public JPanel getMainPanel() {return mainPanel;}
@@ -45,6 +45,7 @@ public class GUI {
     public JPasswordField getPasswordPasswordField() {return passwordPasswordField;}
     public JTextField getProfileNameTextField() {return profileNameTextField;}
     public JTextPane getProfileAlertTextPane() {return profileAlertTextPane;}
+    public JCheckBox getProfileCheckBox() {return profileCheckBox;}
 
     // About page panel GUI methods
     public JPanel getAboutPanel() {return aboutPanel;}
